@@ -1,0 +1,47 @@
+[tool.isort]
+profile = "black"
+skip = ["src/scvi_neural_ode/__init__.py", "src/scvi_neural_ode/models/__init__.py", "src/scvi_neural_ode/modules/__init__.py"]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scvi_neural_ode"
+version = "1.0.0"
+description = "Variational Autoencoder Models for scRNA-seq data"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [{name = "Tani Demian", email = "tani.demian@gmail.com"}]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=2.4",
+    "anndata>=0.12",
+    "scanpy>=1.11",
+    "pandas>=2.3.3",
+    "scikit-learn>=1.8.0",
+    "torch>=2.8.0",
+    "lightning>=2.5.2",
+    "torchdiffeq>=0.2.5",
+    "rich>=14.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "isort",
+    "flake8",
+    "jupyterlab",
+    "ipykernel",
+    "pytest",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.black]
+line-length = 100

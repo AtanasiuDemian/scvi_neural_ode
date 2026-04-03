@@ -1,0 +1,95 @@
+# Byte-compiled / optimized / DLL files
+
+**pycache**/
+*.py[cod]
+*$py.class
+
+# C extensions
+
+*.so
+
+# Distribution / packaging
+
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# Installer logs
+
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+
+.venv/
+venv/
+env/
+ENV/
+
+# Unit test / coverage reports
+
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+pytest_cache/
+
+# Type checkers
+
+.mypy_cache/
+.dmypy.json
+
+# Ruff
+
+.ruff_cache/
+
+# Pyre / pytype
+
+.pyre/
+.pytype/
+
+# Jupyter Notebook
+
+.ipynb_checkpoints/
+
+# Logs
+
+*.log
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# IDEs / editors
+
+.vscode/
+.idea/
+
+# dotenv / environment variables
+
+.env
+.env.*
+
+# Build system (PEP 517)
+
+dist/
+build/
+
+# Hatch
+
+.hatch/
+
+# Coverage reports
+
+coverage.xml
+
+# Temporary files
+
+*.tmp
+*.bak
+*.swp
