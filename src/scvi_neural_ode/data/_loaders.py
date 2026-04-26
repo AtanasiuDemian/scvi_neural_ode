@@ -143,4 +143,3 @@ class ConcatAnnDataLoader(DataLoader):
             cycle(dl) if i != self.largest_dl_idx else dl for i, dl in enumerate(self.dataloaders)
         ]
         return zip(*iter_list)
-

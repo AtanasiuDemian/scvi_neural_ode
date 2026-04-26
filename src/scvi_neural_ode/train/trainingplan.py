@@ -190,9 +190,7 @@ class AdversarialTrainingPlan(TrainingPlan):
         if kappa > 0 and self.classifier is not False:
             module_outputs = self.module.forward(batch)
             z = module_outputs["z_sample"]
-            fool_loss = self.classifier_loss(
-                z, batch_tensor, predict_true_class=False
-            )
+            fool_loss = self.classifier_loss(z, batch_tensor, predict_true_class=False)
             loss = loss + kappa * fool_loss
 
         self.manual_backward(loss)
@@ -206,9 +204,7 @@ class AdversarialTrainingPlan(TrainingPlan):
             module_outputs = self.module.forward(batch)
             z = module_outputs["z_sample"]
 
-            cls_loss = self.classifier_loss(
-                z.detach(), batch_tensor, predict_true_class=True
-            )
+            cls_loss = self.classifier_loss(z.detach(), batch_tensor, predict_true_class=True)
             cls_loss = cls_loss * kappa
 
             self.manual_backward(cls_loss)

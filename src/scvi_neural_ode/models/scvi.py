@@ -174,7 +174,10 @@ class SCVI(
 
         training_plan = _training_plan_cls(self.module, lr, **plan_kwargs)
         trainer = Trainer(
-            n_epochs=n_epochs, accelerator=accelerator, enable_checkpointing=enable_checkpointing, **trainer_kwargs
+            n_epochs=n_epochs,
+            accelerator=accelerator,
+            enable_checkpointing=enable_checkpointing,
+            **trainer_kwargs,
         )
         trainer.fit(model=training_plan, datamodule=self.data_module)
         self.train_indices = self.data_module.train_idx
