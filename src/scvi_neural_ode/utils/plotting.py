@@ -1,5 +1,6 @@
 from typing import List, Optional, Union, Tuple
 
+import warnings
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
@@ -8,7 +9,6 @@ import scanpy as sc
 from anndata import AnnData
 import seaborn as sns
 from matplotlib.axes import Axes
-
 
 
 def get_color_values(
@@ -251,3 +251,56 @@ def plot_volcano(
     ax.set_title(title)
     if return_ax:
         return ax
+    
+
+def plot_jitter(
+    adata: AnnData,
+    x_key: str,
+    y_key: str,
+    categories_order: Optional[List[Union[int, str]]] = None,
+    ax: Optional[Axes] = None,
+    figsize: Optional[Tuple[float, float]] = None,
+    **scatter_kwargs,
+):
+    color_key = f"{y_key}_colors"
+    if color_key not in adata.uns.keys():
+        raise ValueError(f"Key {y_key} needs to be Categorical in the anndata object.")
+
+    default_categories = pd.Categorical(adata.obs[y_key]).categories
+    color_df = pd.Series(adata.uns[color_key], index=default_categories)
+    if categories_order is None:
+        # Order categories by mean expression so we see groups in successive order based on x_key.
+        argind = np.argsort(
+            np.array(
+                [
+                    adata.obs_vector(x_key)[adata.obs_vector(y_key) == c].mean()
+                    for c in default_categories
+                ]
+            )
+        )
+        category_list = default_categories[argind]
+    else:
+        category_list = categories_order
+    
+    y = len(category_list)
+    yticks = []
+
+    if ax is None:
+        _, ax = plt.subplots(figsize=figsize)
+    for cat in category_list:
+        mask = adata.obs_vector(y_key) == cat
+        if not mask.any():
+            warnings.warn(
+                f"Value {cat} of {y_key} not found in the anndata.", stacklevel=2
+            )
+        yval = np.random.normal(loc=y, scale=0.1, size=sum(mask))
+        ax.scatter(
+            adata.obs_vector(x_key)[mask], yval, c=color_df.loc[cat], **scatter_kwargs
+        )
+        yticks += [y]
+        y -= 1
+
+    ax.set_yticks(yticks)
+    ax.set_yticklabels(category_list)
+    ax.set_xlabel(x_key)
+    ax.set_ylabel(y_key)
