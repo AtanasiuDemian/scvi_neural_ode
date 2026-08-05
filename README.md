@@ -81,6 +81,7 @@ Use [CondODESCVI](https://github.com/AtanasiuDemian/scvi_neural_ode/blob/main/sr
 
 ```py
 # To get trajectory output use forward_pass
+# Here only pred_z (predicted latent trajectory) and T (pseudotime) will be sorted.
 traj_output = model.forward_pass()
 ```
 
@@ -96,6 +97,8 @@ model = BranchingCondODESCVI(adata=adata, n_cats=4, CAT_KEY='label') # n_cats = 
 model.train(n_epochs=200, lr=5e-3, accelerator='auto')
 ```
 We can also pinpoint a specific cell as root, as long as it's part of label category 0 - use the `iroot` argument in class instantiation above, this is the index of the cell in the `anndata` object.
+
+Methods `get_latent_representation` and `get_normalized_expression` work as in the other classes, and `forward_pass` like in `CondODESCVI`. Use this latter method to get pseudotime. 
 
 ## Citation
 If you use this in your work, please cite:
